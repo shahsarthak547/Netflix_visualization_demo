@@ -34,6 +34,7 @@ sns.barplot(
     y=top_countries.values
 )
 plt.title("Top 10 Content Producing Countries")
+plt.xticks(rotation=45)
 plt.xlabel("Country")
 plt.ylabel("Number of Titles")
 plt.savefig('top_10_content.jpg')
@@ -45,7 +46,7 @@ dates.plot(kind='pie')
 plt.title("Years Most Content Was Added")
 plt.savefig('yearly_content.jpg')
 plt.show()
-#Average Time Duration of any Shows Or Movies on Netflix
+# #Average Time Duration of any Shows Or Movies on Netflix
 avg_duration = df['duration'].value_counts().mean()
 print(avg_duration)
 #Top 10 trending genres on Netflix
