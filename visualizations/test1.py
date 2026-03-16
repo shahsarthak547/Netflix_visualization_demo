@@ -5,18 +5,31 @@ df = pd.read_csv("netflix_titles.csv")
 print(df.head())
 print(df.info())
 print(df.isnull().sum())
+
+
+
 #handled missing values
 df['country'].fillna("Unknown", inplace=True)
 df['director'].fillna("Unknown", inplace=True)
 df['cast'].fillna("Unknown", inplace=True)
 print(df.head())
 print(df.isnull().sum())
+
+
+
+
+
 #Movies v/s Tv Shows Distribution on netflix
 df['type'].value_counts()
 sns.countplot(x='type', data=df)
 plt.title("Movies vs TV Shows on Netflix")
 plt.savefig('movies_vs_shows.jpg')
 plt.show() #Shows that netflix contains more movies 
+
+
+
+
+
 #Content Released per year
 release_year = df['release_year'].value_counts().sort_index()
 plt.figure(figsize=(10,5))
@@ -26,6 +39,12 @@ plt.xlabel("Year")
 plt.ylabel("Number of shows")
 plt.savefig('release_per_year.jpg')
 plt.show() # Shows that content released per year increased after 2015
+
+
+
+
+
+
 #Shows Top 10 Countries Producing Content
 top_countries = df['country'].value_counts().head(10)
 plt.figure(figsize=(10,5))
@@ -39,6 +58,12 @@ plt.xlabel("Country")
 plt.ylabel("Number of Titles")
 plt.savefig('top_10_content.jpg')
 plt.show() #USA Leads the World
+
+
+
+
+
+
 #Years In Which Most Content was added 
 dates = df['date_added'].value_counts().head(10)
 plt.figure(figsize=(10,5))
@@ -46,9 +71,19 @@ dates.plot(kind='pie')
 plt.title("Years Most Content Was Added")
 plt.savefig('yearly_content.jpg')
 plt.show()
+
+
+
+
+
 # #Average Time Duration of any Shows Or Movies on Netflix
 avg_duration = df['duration'].value_counts().mean()
 print(avg_duration)
+
+
+
+
+
 #Top 10 trending genres on Netflix
 genres = df['listed_in'].str.split(" ", expand=True).stack()
 top_genres = genres.value_counts().head(10)
@@ -58,4 +93,39 @@ plt.title("Top Genres on Netflix")
 plt.xlabel("Genres")
 plt.ylabel("Number of Genres")
 plt.savefig('genres.jpg')
+plt.show()
+
+
+
+#Content ratings
+rating_counts = df['rating'].value_counts()
+plt.figure(figsize=(10,5))
+sns.barplot(x=rating_counts.index, y=rating_counts.values)
+plt.title("Distribution of Content rating on Netflix")
+plt.xticks(rotation=30)
+plt.xlabel("Rating")
+plt.ylabel("Count")
+plt.savefig('rating.jpg')
+plt.show()
+
+
+
+#Shows how many movies or tv shows are released every year
+content_by_year = df.groupby(['release_year', 'type']).size().unstack()
+content_by_year.plot(figsize=(10,5))
+plt.title("Movies vs TV Shows released per year")
+plt.xlabel("Year")
+plt.ylabel("Number of titles")
+plt.savefig('m_vs_tv_per_year.jpg')
+plt.show()
+
+
+#Frequent Actors
+actors = df['cast'].str.split(',', expand=True).stack()
+top_actors = actors.value_counts().head(10)
+plt.figure(figsize=(10,5))
+top_actors.plot(kind='bar')
+plt.xticks(rotation=45)
+plt.title("Top Actors Appearing on Netflix")
+plt.savefig('actors.jpg')
 plt.show()
